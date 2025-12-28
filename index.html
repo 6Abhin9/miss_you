@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pookie New Year 💖</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Comic Sans MS', cursive;
+  background: linear-gradient(135deg, #ffd1dc, #e0f7ff);
+  overflow: hidden;
+  color: #4b004b;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+
+.scene.active {
+  display: flex;
+}
+
+/* 🔥 TEXT 2X BIG + RESPONSIVE */
+h1 {
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
+  margin-bottom: 16px;
+}
+
+p {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  opacity: 0.9;
+}
+
+.tap {
+  margin-top: 25px;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  opacity: 0.7;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 30px;
+  margin-top: 35px;
+}
+
+button {
+  padding: 18px 32px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+}
+
+.correct {
+  background: #ff9ecb;
+}
+
+/* Skip button */
+.wrong {
+  background: #ccc;
+  position: fixed;
+  z-index: 10;
+}
+
+/* 🔥 IMAGES 1.5X BIG + RESPONSIVE */
+.cat {
+  position: absolute;
+  width: clamp(120px, 20vw, 160px);
+  animation: float 6s infinite ease-in-out;
+}
+
+.cat.left { left: 5%; top: 18%; }
+.cat.right { right: 5%; bottom: 18%; animation-delay: 2s; }
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0); }
+}
+
+.reveal {
+  width: clamp(330px, 60vw, 420px);
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.final {
+  width: clamp(390px, 70vw, 480px);
+  border-radius: 30px;
+  box-shadow: 0 0 40px rgba(255,182,193,0.9);
+}
+
+/* Fade */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 📱 MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+  .buttons {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<img src="kichuright.png" class="cat left">
+<img src="IMG-20230626-WA0051(1).png" class="cat right">
+
+<!-- Scene 1 -->
+<div class="scene active">
+  <h1>Hi Kichu 😚</h1>
+  <p>I made something tiny for you</p>
+  <div class="tap">tap anywhere 💗</div>
+</div>
+
+<!-- Scene 2 -->
+<div class="scene">
+  <h1>Almost there 🎀</h1>
+  <p>Don’t blink okay?</p>
+
+  <div class="buttons">
+    <button class="correct" onclick="nextScene()">Proceed 💖</button>
+    <button class="wrong" id="skipBtn">Skip 🙄</button>
+  </div>
+</div>
+
+<!-- Scene 3 -->
+<div class="scene">
+  <h1>✨ Happy New Year ✨</h1>
+  <p>thazhe njekki pottikk</p>
+  <img src="box.png" class="reveal" onclick="nextScene()">
+</div>
+
+<!-- Scene 4 -->
+<div class="scene">
+  <h1>miss you bitch</h1>
+  <p>currently broke af, so no gifts, I am the gift (●'◡'●)</p>
+  <img src="us.jpg" class="final">
+</div>
+
+<script>
+let current = 0;
+const scenes = document.querySelectorAll('.scene');
+
+document.body.addEventListener('click', () => {
+  if (current === 0) nextScene();
+});
+
+function nextScene() {
+  if (current < scenes.length - 1) {
+    scenes[current].classList.remove('active');
+    current++;
+    scenes[current].classList.add('active');
+  }
+}
+
+// Skip button RUNS FAR
+const skipBtn = document.getElementById("skipBtn");
+
+skipBtn.addEventListener("mouseenter", () => {
+  const padding = 20;
+  const maxX = window.innerWidth - skipBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - skipBtn.offsetHeight - padding;
+
+  skipBtn.style.left = `${Math.random() * maxX}px`;
+  skipBtn.style.top = `${Math.random() * maxY}px`;
+});
+</script>
+
+</body>
+</html>
