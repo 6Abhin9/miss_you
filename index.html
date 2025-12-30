@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pookie New Year 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>surprise ☀️</title>
 
 <style>
 * {
@@ -12,11 +13,63 @@
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Comic Sans MS', cursive;
-  background: linear-gradient(135deg, #ffd1dc, #e0f7ff);
+  background: linear-gradient(135deg, #ffd1dc 0%, #ffb6d9 25%, #e0f7ff 75%, #ffd1dc 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   overflow: hidden;
   color: #4b004b;
+  cursor: default;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0;
+  animation: floatHeart 8s infinite;
+  pointer-events: none;
+}
+
+@keyframes floatHeart {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Sparkles */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkleAnim 1.5s ease-out forwards;
+}
+
+@keyframes sparkleAnim {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
 }
 
 .scene {
@@ -24,99 +77,278 @@ body {
   inset: 0;
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  animation: fadeIn 1s ease;
+  animation: fadeIn 0.8s ease;
+  padding: 20px;
+  padding-top: clamp(40px, 10vh, 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .scene.active {
   display: flex;
 }
 
-/* 🔥 TEXT 2X BIG + RESPONSIVE */
+/* Text with glow */
 h1 {
-  font-size: clamp(2.8rem, 6vw, 4.6rem);
-  margin-bottom: 16px;
+  font-size: clamp(2rem, 5vw, 4.8rem);
+  margin-bottom: clamp(10px, 2vh, 15px);
+  text-shadow: 0 0 20px rgba(255, 182, 193, 0.8);
+  animation: pulse 2s infinite;
+  line-height: 1.2;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 p {
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-size: clamp(1.2rem, 3.5vw, 2.6rem);
   opacity: 0.9;
+  text-shadow: 0 2px 10px rgba(255, 182, 193, 0.5);
+  line-height: 1.4;
+  max-width: 90vw;
 }
 
 .tap {
-  margin-top: 25px;
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  margin-top: clamp(15px, 3vh, 25px);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
   opacity: 0.7;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* Buttons */
 .buttons {
   display: flex;
-  gap: 30px;
-  margin-top: 35px;
+  gap: clamp(15px, 3vw, 30px);
+  margin-top: clamp(20px, 4vh, 40px);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 button {
-  padding: 18px 32px;
+  padding: clamp(12px, 2vh, 18px) clamp(24px, 4vw, 36px);
   border-radius: 40px;
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.correct {
-  background: #ff9ecb;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Skip button */
+button:active {
+  transform: translateY(0);
+}
+
+.correct { 
+  background: linear-gradient(135deg, #ff9ecb, #ff6eb4);
+  color: white;
+}
+
 .wrong {
-  background: #ccc;
+  background: linear-gradient(135deg, #ccc, #999);
   position: fixed;
   z-index: 10;
+  transition: all 0.2s ease;
 }
 
-/* 🔥 IMAGES 1.5X BIG + RESPONSIVE */
+/* Floating cats */
 .cat {
   position: absolute;
-  width: clamp(120px, 20vw, 160px);
+  width: clamp(80px, 15vw, 180px);
   animation: float 6s infinite ease-in-out;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+  z-index: 1;
 }
 
-.cat.left { left: 5%; top: 18%; }
-.cat.right { right: 5%; bottom: 18%; animation-delay: 2s; }
+.cat:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.cat.left { left: 2%; top: 10%; }
+.cat.right { right: 2%; bottom: 10%; animation-delay: 2s; }
 
 @keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-30px); }
-  100% { transform: translateY(0); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-35px); }
 }
 
+/* Images */
 .reveal {
-  width: clamp(330px, 60vw, 420px);
-  border-radius: 25px;
+  width: clamp(250px, 70vw, 480px);
+  max-width: 90vw;
+  border-radius: 28px;
   cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+  animation: wiggle 3s infinite;
+  margin-top: clamp(15px, 3vh, 20px);
+}
+
+.reveal:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 15px 40px rgba(255, 105, 180, 0.6);
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
 }
 
 .final {
-  width: clamp(390px, 70vw, 480px);
+  width: clamp(250px, 70vw, 560px);
+  max-width: 90vw;
   border-radius: 30px;
-  box-shadow: 0 0 40px rgba(255,182,193,0.9);
+  box-shadow: 0 0 45px rgba(255, 182, 193, 0.9);
+  animation: photoGlow 3s infinite;
+}
+
+@keyframes photoGlow {
+  0%, 100% { box-shadow: 0 0 45px rgba(255, 182, 193, 0.9); }
+  50% { box-shadow: 0 0 60px rgba(255, 105, 180, 1); }
+}
+
+/* Final layout */
+.final-layout {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 50px);
+  margin-top: clamp(15px, 3vh, 30px);
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 95vw;
+}
+
+/* Side music */
+.side-music {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 2vh, 15px);
+  max-width: clamp(180px, 40vw, 220px);
+  opacity: 0.9;
+}
+
+.side-music img {
+  width: clamp(140px, 35vw, 180px);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.side-music img:hover {
+  transform: scale(1.05);
+}
+
+.side-music audio {
+  width: 100%;
+  max-width: clamp(160px, 40vw, 200px);
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+  .scene {
+    padding-top: clamp(60px, 12vh, 100px);
+    padding-bottom: 40px;
+  }
+  
+  .final-layout {
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 20px;
+  }
+  
+  .cat {
+    width: clamp(60px, 12vw, 100px);
+  }
+  
+  .cat.left { left: 1%; top: 8%; }
+  .cat.right { right: 1%; bottom: 5%; }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+  
+  p {
+    font-size: clamp(1.1rem, 4.5vw, 1.8rem);
+  }
+  
+  .scene {
+    padding-top: clamp(80px, 15vh, 120px);
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .scene {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  
+  h1 {
+    font-size: clamp(1.5rem, 4vh, 2.5rem);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    font-size: clamp(1rem, 3vh, 1.8rem);
+  }
+  
+  .final-layout {
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .cat {
+    width: clamp(50px, 10vh, 80px);
+  }
 }
 
 /* Fade */
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
+  from { 
+    opacity: 0; 
+    transform: scale(0.9) translateY(20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0);
+  }
 }
 
-/* 📱 MOBILE OPTIMIZATION */
-@media (max-width: 600px) {
-  .buttons {
-    flex-direction: column;
-    gap: 20px;
+/* Confetti */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ff69b4;
+  animation: confettiFall 3s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
   }
 }
 </style>
@@ -124,11 +356,11 @@ button {
 
 <body>
 
-<img src="kichuright.png" class="cat left">
-<img src="IMG-20230626-WA0051(1).png" class="cat right">
+<img src="kichuright.png" class="cat left" alt="cute cat">
+<img src="IMG-20230626-WA0051(1).png" class="cat right" alt="cute cat">
 
 <!-- Scene 1 -->
-<div class="scene active">
+<div class="scene active" id="scene1">
   <h1>Hi Kichu 😚</h1>
   <p>I made something tiny for you</p>
   <div class="tap">tap anywhere 💗</div>
@@ -137,7 +369,7 @@ button {
 <!-- Scene 2 -->
 <div class="scene">
   <h1>Almost there 🎀</h1>
-  <p>Don’t blink okay?</p>
+  <p>Don't blink okay?</p>
 
   <div class="buttons">
     <button class="correct" onclick="nextScene()">Proceed 💖</button>
@@ -149,22 +381,55 @@ button {
 <div class="scene">
   <h1>✨ Happy New Year ✨</h1>
   <p>thazhe njekki pottikk</p>
-  <img src="box.png" class="reveal" onclick="nextScene()">
+  <img src="box.png" class="reveal" onclick="openBox()" alt="mystery box">
 </div>
 
 <!-- Scene 4 -->
 <div class="scene">
   <h1>miss you bitch</h1>
   <p>currently broke af, so no gifts, I am the gift (●'◡'●)</p>
-  <img src="us.jpg" class="final">
+
+  <div class="final-layout">
+    <img src="us_again.jpg" class="final" alt="us together">
+
+    <div class="side-music">
+      <img src="dogcat.jpg" alt="our song">
+      <audio controls>
+        <source src="those_eyes.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
 </div>
 
 <script>
 let current = 0;
 const scenes = document.querySelectorAll('.scene');
 
-document.body.addEventListener('click', () => {
-  if (current === 0) nextScene();
+// Create floating hearts
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.textContent = ['💖', '💕', '💗', '💓', '💝'][Math.floor(Math.random() * 5)];
+  heart.style.left = Math.random() * 100 + '%';
+  heart.style.animationDelay = Math.random() * 2 + 's';
+  heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+  document.body.appendChild(heart);
+  
+  setTimeout(() => heart.remove(), 8000);
+}
+
+// Spawn hearts periodically
+setInterval(createHeart, 1500);
+
+// Initial hearts
+for (let i = 0; i < 5; i++) {
+  setTimeout(createHeart, i * 300);
+}
+
+// Scene 1 auto advances on tap
+scenes[0].addEventListener('click', () => {
+  createSparkles(event.clientX, event.clientY);
+  nextScene();
 });
 
 function nextScene() {
@@ -172,21 +437,98 @@ function nextScene() {
     scenes[current].classList.remove('active');
     current++;
     scenes[current].classList.add('active');
+    
+    // Confetti on final scene
+    if (current === scenes.length - 1) {
+      createConfetti();
+    }
   }
 }
 
-// Skip button RUNS FAR
+// Box opening with effects
+function openBox() {
+  createSparkles(event.clientX, event.clientY);
+  createConfetti();
+  setTimeout(nextScene, 300);
+}
+
+// Sparkle effect
+function createSparkles(x, y) {
+  for (let i = 0; i < 12; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = x + 'px';
+    sparkle.style.top = y + 'px';
+    
+    const angle = (Math.PI * 2 * i) / 12;
+    const distance = 50 + Math.random() * 50;
+    sparkle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+    sparkle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+    
+    const colors = ['#ff69b4', '#ff1493', '#ffd700', '#ffffff'];
+    sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1500);
+  }
+}
+
+// Confetti explosion
+function createConfetti() {
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = '-10px';
+      
+      const colors = ['#ff69b4', '#ff1493', '#ffd700', '#00bfff', '#ff6eb4'];
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = Math.random() * 0.3 + 's';
+      confetti.style.animationDuration = (Math.random() * 1 + 2) + 's';
+      
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3000);
+    }, i * 30);
+  }
+}
+
+// Skip button runs away
 const skipBtn = document.getElementById("skipBtn");
+let skipAttempts = 0;
 
 skipBtn.addEventListener("mouseenter", () => {
-  const padding = 20;
-  const maxX = window.innerWidth - skipBtn.offsetWidth - padding;
-  const maxY = window.innerHeight - skipBtn.offsetHeight - padding;
+  skipAttempts++;
+  const maxX = window.innerWidth - skipBtn.offsetWidth - 20;
+  const maxY = window.innerHeight - skipBtn.offsetHeight - 20;
+  skipBtn.style.left = Math.random() * maxX + 10 + "px";
+  skipBtn.style.top = Math.random() * maxY + 10 + "px";
+  
+  if (skipAttempts >= 3) {
+    skipBtn.textContent = "mathi! 😤";
+  }
+  if (skipAttempts >= 5) {
+    skipBtn.textContent = "ada gommale, nokki irunno😏";
+    skipBtn.style.opacity = "0.5";
+  }
+});
 
-  skipBtn.style.left = `${Math.random() * maxX}px`;
-  skipBtn.style.top = `${Math.random() * maxY}px`;
+// Prevent audio clicks from changing scenes
+const audio = document.querySelector("audio");
+if (audio) {
+  audio.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+}
+
+// Add sparkles to button clicks
+document.querySelectorAll('button.correct').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    createSparkles(e.clientX, e.clientY);
+  });
 });
 </script>
 
 </body>
+
 </html>
